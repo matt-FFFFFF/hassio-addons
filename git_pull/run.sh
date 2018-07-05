@@ -41,7 +41,6 @@ function git-clone {
     # create backup
     BACKUP_LOCATION="/tmp/config-$(date +%Y-%m-%d_%H-%M-%S)"
     echo "[Info] Backup configuration to $BACKUP_LOCATION"
-
     mkdir "${BACKUP_LOCATION}" || { echo "[Error] Creation of backup directory failed"; exit 1; }
     cp -rf /config/* "${BACKUP_LOCATION}" || { echo "[Error] Copy files to backup directory failed"; exit 1; }
 
@@ -152,11 +151,7 @@ function git-synchronize {
                     ;;
                 reset)
                     echo "[Info] Start git reset..."
-                    git reset --hard "$GIT_REMOTE"/"$GIT_CURRENT_BRANCH" || { echo "[Error] Git reset failed"; exit 1; }
-                    ;;
-                *)
-                    echo "[Error] Git command is not set correctly. Should be either 'reset' or 'pull'"
-                    exit 1
+                    git reset --hard $GIT_REMOTE/$GIT_BRANCH || { echo "[Error] Git reset failed"; exit 1; }
                     ;;
             esac
         else
